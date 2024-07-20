@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "youtube_links",
+  "info": {
+    "singularName": "youtube-link",
+    "pluralName": "youtube-links",
+    "displayName": "youtubeLink"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "link": {
+      "type": "string"
+    }
+  }
+}
