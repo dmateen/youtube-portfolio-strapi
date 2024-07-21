@@ -5,22 +5,22 @@
  */
 
 const { createCoreService } = require("@strapi/strapi").factories;
-const { google } = require("googleapis");
 
 const API_KEY = process.env.YOUTUBE_DEV;
 
-const youtube = google.youtube({
-  version: "v3",
-  auth: API_KEY,
-});
-
 async function getVideoDetails(videoId) {
   try {
-    const response = await youtube.videos.list({
-      part: "snippet,statistics",
-      id: videoId,
-    });
-    const video = response.data.items[0];
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${API_KEY}`,
+      {
+        headers: {
+          "Cache-Control": "no-cache",
+          Pragma: "no-cache",
+        },
+      }
+    );
+    const data = await response.json();
+    const video = data.items[0];
     if (video) {
       const title = video.snippet.title;
       const channel = video.snippet.channelTitle;
@@ -38,7 +38,7 @@ module.exports = createCoreService(
   ({ strapi }) => ({
     async processLinks(youtubePortfolioLinks) {
       try {
-          const videoData = [];
+        const videoData = [];
 
         for (const link of youtubePortfolioLinks) {
           let videoId;
