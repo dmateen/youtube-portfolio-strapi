@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "youtube_links_data",
+  "info": {
+    "singularName": "youtube-link-data",
+    "pluralName": "youtube-links-data",
+    "displayName": "Youtube-Link-Data",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "youtube_link": {
+      "type": "string",
+      "required": true,
+      "minLength": 3
+    },
+    "youtube_channel_name": {
+      "type": "string",
+      "required": true,
+      "minLength": 3
+    },
+    "youtube_video_title": {
+      "type": "string",
+      "minLength": 3,
+      "required": true
+    },
+    "youtube_views": {
+      "type": "integer",
+      "required": true
+    },
+    "youtube_video_thumbnails": {
+      "type": "json"
+    }
+  }
+}

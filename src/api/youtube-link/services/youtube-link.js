@@ -21,11 +21,14 @@ async function getVideoDetails(videoId) {
     );
     const data = await response.json();
     const video = data.items[0];
+    console.log("==== Details", video);
+    console.log("==== thumbnail", video.snippet.thumbnails);
     if (video) {
       const title = video.snippet.title;
       const channel = video.snippet.channelTitle;
       const views = video.statistics.viewCount;
-      return { title, channel, views };
+      const thumbnails = video.snippet.thumbnails;
+      return { title, channel, views, thumbnails };
     }
   } catch (error) {
     console.error(`Error fetching video details: ${error}`);
@@ -36,34 +39,29 @@ async function getVideoDetails(videoId) {
 module.exports = createCoreService(
   "api::youtube-link.youtube-link",
   ({ strapi }) => ({
-    async processLinks(youtubePortfolioLinks) {
+    async processLink(youtubeLink) {
       try {
-        const videoData = [];
-
-        for (const link of youtubePortfolioLinks) {
-          let videoId;
-          if (link.includes("youtu.be")) {
-            videoId = link.split("youtu.be/")[1].split("?")[0];
-          } else if (link.includes("youtube.com")) {
-            videoId = link.split("v=")[1].split("&")[0];
-          }
-          const details = await getVideoDetails(videoId);
-          if (details) {
-            videoData.push({
-              title: details.title,
-              channel: details.channel,
-              views: details.views,
-              link: link,
-            });
-          }
+        let videoId;
+        if (youtubeLink.includes("youtu.be")) {
+          videoId = youtubeLink.split("youtu.be/")[1].split("?")[0];
+        } else if (youtubeLink.includes("youtube.com")) {
+          videoId = youtubeLink.split("v=")[1].split("&")[0];
         }
-
-        videoData.sort((a, b) => b.views - a.views);
-        return videoData;
+        const details = await getVideoDetails(videoId);
+        if (details) {
+          return {
+            title: details.title,
+            channel: details.channel,
+            views: details.views,
+            thumbnails: details.thumbnails,
+            link: youtubeLink,
+          };
+        }
       } catch (error) {
-        console.error("Error processing links", error);
-        throw new Error("Error processing links");
+        console.error("Error processing link", error);
+        throw new Error("Error processing link");
       }
+      return null;
     },
   })
 );
