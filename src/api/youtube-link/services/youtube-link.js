@@ -21,8 +21,7 @@ async function getVideoDetails(videoId) {
     );
     const data = await response.json();
     const video = data.items[0];
-    console.log("==== Details", video);
-    console.log("==== thumbnail", video.snippet.thumbnails);
+
     if (video) {
       const title = video.snippet.title;
       const channel = video.snippet.channelTitle;

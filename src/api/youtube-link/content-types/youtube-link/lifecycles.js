@@ -111,7 +111,6 @@ module.exports = {
 
   async afterDelete(event) {
     const { result } = event;
-    console.log("======= AFTER Delete");
 
     // Assuming the link is available in the result object
     const link = result.link;
