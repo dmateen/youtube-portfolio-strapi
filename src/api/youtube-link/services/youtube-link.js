@@ -48,6 +48,7 @@ module.exports = createCoreService(
         }
         const details = await getVideoDetails(videoId);
         if (details) {
+          console.error("=====Processed Link - Successfully");
           return {
             title: details.title,
             channel: details.channel,
