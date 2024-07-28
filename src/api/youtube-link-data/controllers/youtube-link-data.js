@@ -20,9 +20,9 @@ module.exports = createCoreController(
       const { data, meta } = await super.find(ctx);
 
       // Sort the data based on youtube_views in descending order
-      data.sort(
-        (a, b) => b.attributes.youtube_views - a.attributes.youtube_views
-      );
+      // data.sort(
+      //   (a, b) => b.attributes.youtube_views - a.attributes.youtube_views
+      // );
 
       // Append the video details to the response if needed
       return { data, meta };
